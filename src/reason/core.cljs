@@ -1,5 +1,5 @@
-(ns ^:figwheel-always reason.core
-    (:require))
+(ns reason.core
+  (:require [clojure.string :as str]))
 
 (enable-console-print!)
 
