@@ -1,6 +1,6 @@
 (ns reason.core-test
   (:require
-   [cljs.test :refer-macros [deftest is are]]
+   [cljs.test :refer-macros [testing deftest is are]]
    [reason.core :as rc]))
 
 (deftest prefix?-test
@@ -46,4 +46,12 @@
       "empty rule matches nothing")
 
   (is (not-any? (p/rule->pred nil) some-records)
-      "nil rule matches nothing"))
+      "nil rule matches nothing")
+
+  (testing "id match with +"
+    (let [record (first some-records)
+          pred (p/rule->pred (str "+id:" (:id record)))]
+      (is (pred record)
+          "matches the record with that id")
+      (is (not-any? pred (rest some-records))
+          "doesn't match other records"))))
