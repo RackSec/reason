@@ -42,7 +42,7 @@
   (repeatedly 10 random-record))
 
 (deftest rule->pred-test
-  (is (not-any? (p/rule->pred "") some-records)
+  (is (not-any? (rc/rule->pred "") some-records)
       "empty rule matches nothing")
 
   (is (not-any? (p/rule->pred nil) some-records)
