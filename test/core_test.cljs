@@ -72,6 +72,6 @@
 
   (testing "multiple partial matches"
     (let [records (take 2 some-records)
-          pred (p/rule->pred (->> (map #(str "+id:" (prefix %)) records)
+          pred (rc/rule->pred (->> (map #(str "+id:" (prefix %)) records)
                                   (string/join "; ")))]
       (is (every? pred records)))))
