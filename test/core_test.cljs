@@ -1,6 +1,6 @@
 (ns reason.core-test
   (:require
-   [cljs.test :refer-macros [deftest is]]
+   [cljs.test :refer-macros [deftest is are]]
    [reason.core :as rc]))
 
 (deftest prefix?-test
@@ -14,3 +14,20 @@
   (is (= (rc/split-rule "+id:333; +id:444; -id:555;")
          ["+id:333" "+id:444" "-id:555"])
       "single semicolon at end of string is ignored"))
+
+(deftest parse-subrule-test
+  (are [subrule parsed] (= (rc/parse-subrule subrule) parsed)
+    "+id:abc"
+    {:pos? true
+     :key-prefix "id"
+     :match-rule "abc"}
+
+    "id:abc"
+    {:pos? true
+     :key-prefix "id"
+     :match-rule "abc"}
+
+    "-id:abc"
+    {:pos? false
+     :key-prefix "id"
+     :match-rule "abc"}))
