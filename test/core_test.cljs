@@ -68,4 +68,10 @@
           partial-id (apply str (take 10 (str (:id record))))
           pred (p/rule->pred (str "id:" partial-id))]
       (is (pred record)
-          "matches the record with that id"))))
+          "matches the record with that id")))
+
+  (testing "multiple partial matches"
+    (let [records (take 2 some-records)
+          pred (p/rule->pred (->> (map #(str "+id:" (prefix %)) records)
+                                  (string/join "; ")))]
+      (is (every? pred records)))))
