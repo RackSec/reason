@@ -42,6 +42,13 @@
 (def some-records
   (repeatedly 10 random-record))
 
+(defn ^:private prefix
+  "The first 10 chars of a record id, as a str."
+  [record]
+  (->> (str (:id record))
+       (take 10)
+       (apply str)))
+
 (deftest rule->pred-test
   (is (not-any? (rc/rule->pred "") some-records)
       "empty rule matches nothing")
