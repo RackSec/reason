@@ -19,7 +19,7 @@
     :builds [{:id "dev"
               :source-paths ["src"]
 
-              :figwheel { :on-jsload "reason.core/on-js-reload" }
+              :figwheel true
 
               :compiler {:main reason.core
                          :asset-path "js/compiled/out"
@@ -29,9 +29,18 @@
              {:id "min"
               :source-paths ["src"]
               :compiler {:output-to "resources/public/js/compiled/reason.js"
-                         :main reason.core
+                         :main "reason.core"
                          :optimizations :advanced
-                         :pretty-print false}}]}
+                         :pretty-print false}}
+             {:id "test"
+              :source-paths ["src" "test"]
+              :compiler {:output-to "target/test.js"
+                         :main "reason.runner"
+                         :optimizations :whitespace
+                         :pretty-print true}}]}
+
+  :profiles {:dev {:dependencies [[doo "0.1.4"]]
+                   :plugins [[lein-doo "0.1.4"]]}}
 
   :figwheel {:css-dirs ["resources/public/css"]
              :nrepl-port 7002})
