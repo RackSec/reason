@@ -93,3 +93,35 @@
                                (rc/rule->pred)))]
         (is ((substr-pred 0 2) record))
         (is ((substr-pred 1 3) record)))))
+
+  (testing "exact matches for keywords"
+    ;; Note that one of the statuses, inactive, has the word "active"
+    ;; in it, which is one of the other statuses. Therefore, reason
+    ;; needs to understand that these statuses are special --
+    ;; otherwise, with substring match, "active" would match
+    ;; both "active" and "inactive", and that isn't very useful.
+    (let [{:keys [active pending inactive]}
+          (group-by :status some-records)
+          rules (fn [state]
+                  (map #(str "+" % ":" state)
+                       ["status"
+                        "stat"
+                        "st"]))]
+
+      (doseq [p (map rc/rule->pred (rules "active"))]
+        (testing "pred for selecting active"
+          (is (every? p active))
+          (is (not-any? p pending))
+          (is (not-any? p inactive))))
+
+      (doseq [p (map rc/rule->pred (rules "pending"))]
+        (testing "pred for selecting pending"
+          (is (not-any? p active))
+          (is (every? p pending))
+          (is (not-any? p inactive))))
+
+      (doseq [p (map rc/rule->pred (rules "inactive"))]
+        (testing "pred for selecting inactive"
+          (is (not-any? p active))
+          (is (not-any? p pending))
+          (is (every? p inactive)))))))
