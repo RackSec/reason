@@ -61,4 +61,11 @@
           pred (p/rule->pred (str "id:" (:id record)))]
       (is (pred record)
           "matches the record with that id")
-      (is (not-any? pred (rest some-records))))))
+      (is (not-any? pred (rest some-records)))))
+
+  (testing "partial id match"
+    (let [record (first some-records)
+          partial-id (apply str (take 10 (str (:id record))))
+          pred (p/rule->pred (str "id:" partial-id))]
+      (is (pred record)
+          "matches the record with that id"))))
