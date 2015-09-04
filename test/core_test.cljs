@@ -145,4 +145,13 @@
       (is (not-any? pred pending)
           "pending records don't match")
       (is (not-any? pred inactive)
-          "inactive records don't match"))))
+          "inactive records don't match")))
+
+  (testing "overriding a negative match with later rules"
+    (let [records (map #(assoc % :status :inactive) some-records)
+          control-rule "-status:inactive"
+          control-pred (rc/rule->pred control-rule)
+          pred (rc/rule->pred (str control-rule "; +id:" (:id (first records))))]
+      (is (not-any? control-pred records))
+      (is (pred (first records)))
+      (is (not-any? pred (rest records))))))
