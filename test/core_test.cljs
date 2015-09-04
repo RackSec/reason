@@ -1,6 +1,7 @@
 (ns reason.core-test
   (:require
    [cljs.test :refer-macros [testing deftest is are]]
+   [clojure.string :as str]
    [reason.core :as rc]))
 
 (deftest prefix?-test
