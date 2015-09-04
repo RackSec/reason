@@ -1,0 +1,18 @@
+language: clojure
+jdk:
+  - oraclejdk8
+
+cache:
+  directories:
+    - $HOME/.lein
+    - $HOME/.m2
+
+before_script:
+  - phantomjs -v
+script:
+  - lein do test, doo phantom test once
+
+notifications:
+  email: false
+  slack:
+    secure: Ed9fAsUhQZ5GSZqjkOp9GjmYSRnutmpLatmm9u1rrN9Uh4VtjNGL1mC9MFC0dZx1nBR77vnoN/QLw7Q2JfN4ta/flph7eytYHIQsEHrp/WWrld4nsjHcx+wLvk8f8/97E0VN6uAWUhXjdtg/QKzWb/fewhkMx6ZVz44Hw5xzuaU=
