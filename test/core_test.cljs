@@ -50,7 +50,7 @@
 
   (testing "id match with +"
     (let [record (first some-records)
-          pred (p/rule->pred (str "+id:" (:id record)))]
+          pred (rc/rule->pred (str "+id:" (:id record)))]
       (is (pred record)
           "matches the record with that id")
       (is (not-any? pred (rest some-records))
