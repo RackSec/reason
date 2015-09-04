@@ -37,7 +37,7 @@
   []
   {:id (random-uuid)
    :name (str (gensym "reason"))
-   :status (rand-nth [:active :disabled :paused :stopped])})
+   :status (rand-nth [:active :pending :inactive])})
 
 (def some-records
   (repeatedly 10 random-record))
