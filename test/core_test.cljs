@@ -54,4 +54,11 @@
       (is (pred record)
           "matches the record with that id")
       (is (not-any? pred (rest some-records))
-          "doesn't match other records"))))
+          "doesn't match other records")))
+
+  (testing "id match with implicit +"
+    (let [record (first some-records)
+          pred (p/rule->pred (str "id:" (:id record)))]
+      (is (pred record)
+          "matches the record with that id")
+      (is (not-any? pred (rest some-records))))))
