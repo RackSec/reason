@@ -1,14 +1,7 @@
 # reason
 
-> "What kind of combat environment do you want to use Reason in?" Ng says.
->
-> "I need to take over an aircraft carrier tomorrow morning."
->
-> "The Enterprise?"
->
-> "Yes."
->
-> (*Snow Crash*, Neal Stephenson)
+> "I'm sure they'll listen to reason."
+> (Fisheye, *Snow Crash* by Neal Stephenson)
 
 A library for producing simple predicate functions from textual user input.
 
