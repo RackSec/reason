@@ -45,7 +45,7 @@
   (is (not-any? (rc/rule->pred "") some-records)
       "empty rule matches nothing")
 
-  (is (not-any? (p/rule->pred nil) some-records)
+  (is (not-any? (rc/rule->pred nil) some-records)
       "nil rule matches nothing")
 
   (testing "id match with +"
