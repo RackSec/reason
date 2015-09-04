@@ -31,3 +31,19 @@
     {:pos? false
      :key-prefix "id"
      :match-rule "abc"}))
+
+(defn ^:private random-record
+  []
+  {:id (random-uuid)
+   :name (str (gensym "reason"))
+   :status (rand-nth [:active :disabled :paused :stopped])})
+
+(def some-records
+  (repeatedly 10 random-record))
+
+(deftest rule->pred-test
+  (is (not-any? (p/rule->pred "") some-records)
+      "empty rule matches nothing")
+
+  (is (not-any? (p/rule->pred nil) some-records)
+      "nil rule matches nothing"))
