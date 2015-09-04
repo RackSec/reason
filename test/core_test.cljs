@@ -73,5 +73,23 @@
   (testing "multiple partial matches"
     (let [records (take 2 some-records)
           pred (rc/rule->pred (->> (map #(str "+id:" (prefix %)) records)
-      (is (every? pred records)))))
                                   (str/join "; ")))]
+      (is (every? pred records))))
+
+  (testing "name match"
+    (testing "exact match"
+      (let [record (first some-records)
+            pred (rc/rule->pred (str "+name:" (:name record)))]
+        (is (pred record))))
+    (testing "non-match"
+      (let [[record other-record] (take 2 some-records)
+            pred (rc/rule->pred (str "+name:" (:name other-record)))]
+        (is (not (pred record)))))
+    (testing "near name match"
+      (let [record (first some-records)
+            substr-pred (fn [start end]
+                          (->> (subs (:name record) start end)
+                               (str "+name:")
+                               (rc/rule->pred)))]
+        (is ((substr-pred 0 2) record))
+        (is ((substr-pred 1 3) record)))))
