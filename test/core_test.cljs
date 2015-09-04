@@ -132,4 +132,17 @@
         (testing "pred for selecting inactive"
           (is (not-any? p active))
           (is (not-any? p pending))
-          (is (every? p inactive)))))))
+          (is (every? p inactive))))))
+
+  (testing "negative match"
+    (let [{:keys [active pending inactive]} (group-by :status some-records)
+          rule (str "+status:active; -id:" (:id (first active)))
+          pred (rc/rule->pred rule)]
+      (is (not (pred (first active)))
+          "active record excluded by id doesn't match")
+      (is (every? pred (rest active))
+          "active records not excluded do match")
+      (is (not-any? pred pending)
+          "pending records don't match")
+      (is (not-any? pred inactive)
+          "inactive records don't match"))))
