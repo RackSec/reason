@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/RackSec/reason.svg?branch=master)](https://travis-ci.org/RackSec/reason)
 
 > "I'm sure they'll listen to reason."
+>
 > (Fisheye, *Snow Crash* by Neal Stephenson)
 
 A library for producing simple predicate functions from textual user input.
