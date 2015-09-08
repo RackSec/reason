@@ -58,3 +58,30 @@
            (filter (fn [{:keys [pred]}] (pred record)))
            first
            :pos?))))
+
+(defn ^:private targets-record?
+  "Does this subrule affect this record with the this key?"
+  [rule record key]
+  (let [{:keys [key-prefix match-rule]} (parse-subrule rule)
+        matched-key (key-for-prefix key-prefix record)]
+    (and (= key matched-key)
+         (= match-rule (str (get record key))))))
+
+(defn toggle-record
+  "Toggles a specific record (by key/value) on or off in the rule.
+
+  Returns a new rule with this record's value for the given key disabled
+  if the rule currently affects the record; enabled if otherwise.
+
+  Because this toggles by key/value pair, if a different record has the
+  same value for the given key, it will also be
+  enabled/disabled."
+  [rule record key]
+  (let [rules (->> (split-rule rule)
+                   (remove #(targets-record? % record key))
+                   vec)
+        pred (rule->pred rule)
+        sign (if (pred record) "-" "+")]
+    (->> (str sign (name key) ":" (get record key))
+         (conj rules)
+         (str/join "; "))))
