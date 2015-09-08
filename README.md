@@ -8,10 +8,6 @@
 
 A library for producing simple predicate functions from textual user input.
 
-## Overview
-
-FIXME: Write a paragraph about the library/project and highlight its goals.
-
 ## Setup
 
 To get an interactive development environment run:
