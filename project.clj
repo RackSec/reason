@@ -1,4 +1,4 @@
-(defproject reason "0.1.0-SNAPSHOT"
+(defproject reason "0.1.0"
   :description "FIXME: write this!"
   :url "https://github.com/racksec/reason"
   :license {:name "Eclipse Public License"
