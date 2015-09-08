@@ -1,5 +1,5 @@
 (defproject reason "0.1.0"
-  :description "FIXME: write this!"
+  :description "Library for producing predicates from textual user input."
   :url "https://github.com/racksec/reason"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
