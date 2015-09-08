@@ -1,4 +1,4 @@
-(defproject reason "0.2.0-SNAPSHOT"
+(defproject reason "0.2.0"
   :description "Library for producing predicates from textual user input."
   :url "https://github.com/racksec/reason"
   :license {:name "Eclipse Public License"
