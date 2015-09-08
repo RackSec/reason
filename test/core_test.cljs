@@ -158,11 +158,11 @@
 
 (deftest toggle-record-test
   (testing "enable record"
-    (= (toggle-record "+id:123" {:id "456" :name "hiro"} :name)
+    (= (rc/toggle-record "+id:123" {:id "456" :name "hiro"} :name)
        "+id:123; +name:hiro"))
   (testing "enable currently disabled record"
-    (= (toggle-record "+id:123; -name:hiro" {:id "456" :name "hiro"} :name)
+    (= (rc/toggle-record "+id:123; -name:hiro" {:id "456" :name "hiro"} :name)
        "+id:123; +name:hiro"))
   (testing "disable currently enabled record"
-    (= (toggle-record "+id:123; +name:hiro" {:id "456" :name "hiro"} :name)
+    (= (rc/toggle-record "+id:123; +name:hiro" {:id "456" :name "hiro"} :name)
        "+id:123; -name:hiro")))
