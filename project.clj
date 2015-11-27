@@ -39,7 +39,8 @@
                          :optimizations :whitespace
                          :pretty-print true}}]}
 
-  :profiles {:dev {:dependencies [[doo "0.1.6-SNAPSHOT"]
+  :profiles {:dev {:dependencies [[cljsbuild "1.1.1"]
+                                  [doo "0.1.6-SNAPSHOT"]
                                   [figwheel "0.5.0-2"]]
                    :plugins [[lein-doo "0.1.6-SNAPSHOT"]
                              [lein-cljsbuild "1.1.1"]
