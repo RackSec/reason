@@ -49,4 +49,7 @@
                              [lein-figwheel "0.5.0-2"]]}}
 
   :figwheel {:css-dirs ["resources/public/css"]
+             :nrepl-middleware ["cider.nrepl/cider-middleware"
+                                "refactor-nrepl.middleware/wrap-refactor"
+                                "cemerick.piggieback/wrap-cljs-repl"]
              :nrepl-port 7002})
