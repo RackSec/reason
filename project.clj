@@ -9,10 +9,7 @@
 
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/clojurescript "1.7.122"]
-                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]]
-
-  :plugins [[lein-cljsbuild "1.1.0"]
-            [lein-figwheel "0.3.9"]]
+                 [org.clojure/core.async "0.2.374"]]
 
   :source-paths ["src"]
 
@@ -42,8 +39,11 @@
                          :optimizations :whitespace
                          :pretty-print true}}]}
 
-  :profiles {:dev {:dependencies [[doo "0.1.4"]]
-                   :plugins [[lein-doo "0.1.4"]]}}
+  :profiles {:dev {:dependencies [[doo "0.1.6-SNAPSHOT"]
+                                  [figwheel "0.5.0-2"]]
+                   :plugins [[lein-doo "0.1.6-SNAPSHOT"]
+                             [lein-cljsbuild "1.1.1"]
+                             [lein-figwheel "0.5.0-2"]]}}
 
   :figwheel {:css-dirs ["resources/public/css"]
              :nrepl-port 7002})
