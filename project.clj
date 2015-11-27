@@ -41,7 +41,9 @@
 
   :profiles {:dev {:dependencies [[cljsbuild "1.1.1"]
                                   [doo "0.1.6-SNAPSHOT"]
-                                  [figwheel "0.5.0-2"]]
+                                  [figwheel "0.5.0-2"]
+                                  [com.cemerick/piggieback "0.2.1"]
+                                  [org.clojure/tools.nrepl "0.2.12"]]
                    :plugins [[lein-doo "0.1.6-SNAPSHOT"]
                              [lein-cljsbuild "1.1.1"]
                              [lein-figwheel "0.5.0-2"]]}}
