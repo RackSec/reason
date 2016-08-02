@@ -11,6 +11,8 @@
                  [org.clojure/clojurescript "1.7.122"]
                  [org.clojure/core.async "0.2.374"]]
 
+  :plugins [[lein-cljfmt "0.3.0"]]
+
   :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
