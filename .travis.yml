@@ -8,6 +8,7 @@ cache:
 before_script:
 - phantomjs -v
 script:
+- lein cljfmt check
 - lein do test, doo phantom test once
 notifications:
   email: false
