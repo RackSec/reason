@@ -154,7 +154,19 @@
           pred (rc/rule->pred (str control-rule "; +id:" (:id (first records))))]
       (is (not-any? control-pred records))
       (is (pred (first records)))
-      (is (not-any? pred (rest records))))))
+      (is (not-any? pred (rest records)))))
+
+  (testing "removes random strings from being included in the predicate"
+    (let [record (first some-records)
+          rule (str "+id:" (:id record) "; string")
+          pred (rc/rule->pred rule)]
+      (is (pred record))))
+
+  (testing "return nil when rule contains keys not provided"
+    (let [record (first some-records)
+          rule (str "+id:" (:id record) "; +a:123")
+          pred (rc/rule->pred rule (keys record))]
+      (is (nil? (pred record))))))
 
 (deftest toggle-record-test
   (testing "enable record"

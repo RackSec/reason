@@ -29,9 +29,9 @@
   (= (.lastIndexOf super sub) 0))
 
 (defn ^:private key-for-prefix
-  "Given a key prefix, find a key in the given map-like that matches it."
-  [key-prefix record]
-  (->> (keys record)
+  "Given a key prefix, find a key in the vector that matches it."
+  [key-prefix kys]
+  (->> kys
        (filter #(prefix? (name %) key-prefix))
        (first)
        (keyword)))
@@ -42,28 +42,43 @@
   (if (empty? match-rule)
     (constantly false)
     (fn [record]
-      (let [key (key-for-prefix key-prefix record)
+      (let [key (key-for-prefix key-prefix (keys record))
             val (get record key)]
         (match? match-rule val)))))
 
+(defn ^:private create-pred
+  "Given keys and the subrules, create a predicate.
+  If not all prefixes are in provided kys vector then predicates return false."
+  [kys subrules]
+  (let [key-prefixes (map :key-prefix subrules)
+        not-all-prefixes-exist?
+        (not-every? #(some? (key-for-prefix % kys)) key-prefixes)
+        pred (if (and (seq kys) not-all-prefixes-exist?)
+               #(constantly false)
+               #(parsed-subrule->pred %))]
+    (map (fn [subrule] (assoc subrule :pred (pred subrule))) subrules)))
+
 (defn rule->pred
-  "Given a rule, give a predicate for that rule."
-  [rule]
-  (let [rules (->> rule
-                   (split-rule)
-                   (map parse-subrule)
-                   (map #(assoc % :pred (parsed-subrule->pred %))))]
-    (fn [record]
-      (->> (reverse rules)
-           (filter (fn [{:keys [pred]}] (pred record)))
-           first
-           :pos?))))
+  "Given a rule, give a predicate for that rule.
+   Returns nil if the rule contains keys not in provided keys param."
+  ([rule]
+   (rule->pred rule nil))
+  ([rule rule-keys]
+   (let [rules (->> rule
+                    (split-rule)
+                    (map parse-subrule)
+                    (create-pred rule-keys))]
+     (fn [record]
+       (->> (reverse rules)
+            (filter (fn [{:keys [pred]}] (pred record)))
+            first
+            :pos?)))))
 
 (defn ^:private targets-record?
   "Does this subrule affect this record with the this key?"
   [rule record key]
   (let [{:keys [key-prefix match-rule]} (parse-subrule rule)
-        matched-key (key-for-prefix key-prefix record)]
+        matched-key (key-for-prefix key-prefix (keys record))]
     (and (= key matched-key)
          (= match-rule (str (get record key))))))
 
