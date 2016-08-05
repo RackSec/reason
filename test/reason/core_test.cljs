@@ -17,7 +17,8 @@
       "single semicolon at end of string is ignored"))
 
 (deftest parse-subrule-test
-  (are [subrule parsed] (= (rc/parse-subrule subrule) parsed)
+  (are [subrule parsed] (and (= (rc/parse-subrule subrule nil) parsed)
+                             (= (rc/parse-subrule subrule [:id]) parsed))
     "+id:abc"
     {:pos? true
      :key-prefix "id"
@@ -31,7 +32,18 @@
     "-id:abc"
     {:pos? false
      :key-prefix "id"
-     :match-rule "abc"}))
+     :match-rule "abc"})
+
+  (are [subrule parsed] (= (rc/parse-subrule subrule [:id]) parsed)
+    "id"
+    {:pos? true
+     :key-prefix "id"
+     :match-rule ""}
+
+    "id:"
+    {:pos? true
+     :key-prefix "id"
+     :match-rule ""}))
 
 (defn ^:private random-record
   []
@@ -156,17 +168,22 @@
       (is (pred (first records)))
       (is (not-any? pred (rest records)))))
 
-  (testing "removes random strings from being included in the predicate"
-    (let [record (first some-records)
-          rule (str "+id:" (:id record) "; string")
-          pred (rc/rule->pred rule)]
-      (is (pred record))))
+  (testing "fails on non-prefix keys"
+    (let [record (first some-records)]
+      (are [rule] (nil? ((rc/rule->pred rule (keys record)) record))
+        "str"
+        (str "string; +id:" (:id record))
+        (str "+id:" (:id record) "; string")
+        (str "+id:" (:id record) "; +a:123"))))
 
-  (testing "return nil when rule contains keys not provided"
-    (let [record (first some-records)
-          rule (str "+id:" (:id record) "; +a:123")
-          pred (rc/rule->pred rule (keys record))]
-      (is (nil? (pred record))))))
+  (testing "allows key prefixes with valid subrule"
+    (let [record (first some-records)]
+      (are [rule] ((rc/rule->pred rule (keys record)) record)
+        "id"
+        "id:"
+        (str "+id:" (:id record) "; nam")
+        (str "+id:" (:id record) "; nam; status")
+        (str "+id:" (:id record) "; nam:" (:name record))))))
 
 (deftest toggle-record-test
   (testing "enable record"
