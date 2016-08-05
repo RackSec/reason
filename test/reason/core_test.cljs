@@ -159,7 +159,7 @@
   (testing "removes random strings from being included in the predicate"
     (let [record (first some-records)
           rule (str "+id:" (:id record) "; string")
-          pred (rc/rule->pred rule (keys record))]
+          pred (rc/rule->pred rule)]
       (is (pred record))))
 
   (testing "return nil when rule contains keys not provided"

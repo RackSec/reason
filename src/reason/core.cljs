@@ -36,13 +36,6 @@
        (first)
        (keyword)))
 
-(defn ^:private clean-subrules
-  "Given keys and subrules, remove the subrules without a matchable value"
-  [kys subrules]
-  (if (seq kys)
-    (filter #(not (nil? (:match-rule %))) subrules)
-    subrules))
-
 (defn ^:private parsed-subrule->pred
   "Given a parsed sub-rule, create a predicate for that rule."
   [{:keys [key-prefix match-rule]}]
@@ -68,12 +61,11 @@
 (defn rule->pred
   "Given a rule, give a predicate for that rule.
    Returns nil if the rule contains keys not in provided keys param."
-  [rule & keys]
+  [rule & [rule-keys]]
   (let [rules (->> rule
                    (split-rule)
                    (map parse-subrule)
-                   (clean-subrules (first keys))
-                   (create-pred (first keys)))]
+                   (create-pred rule-keys))]
     (fn [record]
       (->> (reverse rules)
            (filter (fn [{:keys [pred]}] (pred record)))
