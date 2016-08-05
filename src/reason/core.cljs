@@ -17,11 +17,16 @@
 
 (defn ^:private parse-subrule
   "Parses a subrule."
-  [rule]
-  (let [[_ sign key match-rule] (re-matches #"([-+]?)(.*?):(.*)" (str rule))]
-    {:pos? (if (= sign "-") false true)
-     :key-prefix key
-     :match-rule match-rule}))
+  ([rule]
+   (parse-subrule rule nil))
+  ([rule rule-keys]
+   (let [matches (re-matches #"([-+]?)(.*?):(.*)" (str rule))
+         get-key-prefix (and (nil? matches) (some? rule-keys)
+                             (re-matches #"([-+]?)(.*?)(:?)$" (str rule)))
+         [_ sign key match-rule] (or get-key-prefix matches)]
+     {:pos? (if (= sign "-") false true)
+      :key-prefix key
+      :match-rule match-rule})))
 
 (defn ^:private prefix?
   "Does super start with sub?"
@@ -48,14 +53,20 @@
 
 (defn ^:private create-pred
   "Given keys and the subrules, create a predicate.
-  If not all prefixes are in provided kys vector then predicates return false."
+  If not all prefixes are in provided kys vector then predicates return false.
+  If subrule prefix is in kys vector but doesn't contain a match-rule predicate
+  returns true."
   [kys subrules]
   (let [key-prefixes (map :key-prefix subrules)
         not-all-prefixes-exist?
-        (not-every? #(some? (key-for-prefix % kys)) key-prefixes)
-        pred (if (and (seq kys) not-all-prefixes-exist?)
-               #(constantly false)
-               #(parsed-subrule->pred %))]
+        (and (seq kys)
+             (not-every? #(some? (key-for-prefix % kys)) key-prefixes))
+        prefix-exists-no-rule? #(and (seq kys) (str/blank? (:match-rule %)))
+        pred (fn [subrule]
+               (cond
+                 not-all-prefixes-exist? (constantly false)
+                 (prefix-exists-no-rule? subrule) (constantly true)
+                 :else (parsed-subrule->pred subrule)))]
     (map (fn [subrule] (assoc subrule :pred (pred subrule))) subrules)))
 
 (defn rule->pred
@@ -66,7 +77,7 @@
   ([rule rule-keys]
    (let [rules (->> rule
                     (split-rule)
-                    (map parse-subrule)
+                    (map #(parse-subrule % rule-keys))
                     (create-pred rule-keys))]
      (fn [record]
        (->> (reverse rules)
