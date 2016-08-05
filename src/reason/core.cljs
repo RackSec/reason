@@ -61,16 +61,18 @@
 (defn rule->pred
   "Given a rule, give a predicate for that rule.
    Returns nil if the rule contains keys not in provided keys param."
-  [rule & [rule-keys]]
-  (let [rules (->> rule
-                   (split-rule)
-                   (map parse-subrule)
-                   (create-pred rule-keys))]
-    (fn [record]
-      (->> (reverse rules)
-           (filter (fn [{:keys [pred]}] (pred record)))
-           first
-           :pos?))))
+  ([rule]
+   (rule->pred rule nil))
+  ([rule rule-keys]
+   (let [rules (->> rule
+                    (split-rule)
+                    (map parse-subrule)
+                    (create-pred rule-keys))]
+     (fn [record]
+       (->> (reverse rules)
+            (filter (fn [{:keys [pred]}] (pred record)))
+            first
+            :pos?)))))
 
 (defn ^:private targets-record?
   "Does this subrule affect this record with the this key?"
