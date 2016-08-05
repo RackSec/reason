@@ -17,7 +17,8 @@
       "single semicolon at end of string is ignored"))
 
 (deftest parse-subrule-test
-  (are [subrule parsed] (= (rc/parse-subrule subrule nil) parsed)
+  (are [subrule parsed] (and (= (rc/parse-subrule subrule nil) parsed)
+                             (= (rc/parse-subrule subrule [:id]) parsed))
     "+id:abc"
     {:pos? true
      :key-prefix "id"
@@ -33,27 +34,13 @@
      :key-prefix "id"
      :match-rule "abc"})
 
-  (are [subrule kys parsed] (= (rc/parse-subrule subrule kys) parsed)
-    "+id:abc"
-    [:id]
-    {:pos? true
-     :key-prefix "id"
-     :match-rule "abc"}
-
-    "id:abc"
-    [:id]
-    {:pos? true
-     :key-prefix "id"
-     :match-rule "abc"}
-
+  (are [subrule parsed] (= (rc/parse-subrule subrule [:id]) parsed)
     "id"
-    [:id]
     {:pos? true
      :key-prefix "id"
      :match-rule ""}
 
     "id:"
-    [:id]
     {:pos? true
      :key-prefix "id"
      :match-rule ""}))
