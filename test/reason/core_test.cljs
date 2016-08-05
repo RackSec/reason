@@ -17,7 +17,7 @@
       "single semicolon at end of string is ignored"))
 
 (deftest parse-subrule-test
-  (are [subrule parsed] (= (rc/parse-subrule subrule) parsed)
+  (are [subrule parsed] (= (rc/parse-subrule subrule nil) parsed)
     "+id:abc"
     {:pos? true
      :key-prefix "id"
@@ -181,7 +181,7 @@
       (is (pred (first records)))
       (is (not-any? pred (rest records)))))
 
-  (testing "fails on non prefix keys"
+  (testing "fails on non-prefix keys"
     (let [record (first some-records)]
       (are [rule] (nil? ((rc/rule->pred rule (keys record)) record))
         "str"
@@ -195,6 +195,7 @@
         "id"
         "id:"
         (str "+id:" (:id record) "; nam")
+        (str "+id:" (:id record) "; nam; status")
         (str "+id:" (:id record) "; nam:" (:name record))))))
 
 (deftest toggle-record-test

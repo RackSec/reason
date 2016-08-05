@@ -17,16 +17,14 @@
 
 (defn ^:private parse-subrule
   "Parses a subrule."
-  ([rule]
-   (parse-subrule rule nil))
-  ([rule rule-keys]
-   (let [matches (re-matches #"([-+]?)(.*?):(.*)" (str rule))
-         get-key-prefix (and (nil? matches) (some? rule-keys)
-                             (re-matches #"([-+]?)(.*?)(:?)$" (str rule)))
-         [_ sign key match-rule] (or get-key-prefix matches)]
-     {:pos? (if (= sign "-") false true)
-      :key-prefix key
-      :match-rule match-rule})))
+  [rule rule-keys]
+  (let [matches (re-matches #"([-+]?)(.*?):(.*)" (str rule))
+        get-key-prefix (and (nil? matches) (some? rule-keys)
+                            (re-matches #"([-+]?)(.*?)(:?)$" (str rule)))
+        [_ sign key match-rule] (or get-key-prefix matches)]
+    {:pos? (if (= sign "-") false true)
+     :key-prefix key
+     :match-rule match-rule}))
 
 (defn ^:private prefix?
   "Does super start with sub?"
