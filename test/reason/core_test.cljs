@@ -185,6 +185,16 @@
         (str "+id:" (:id record) "; nam; status")
         (str "+id:" (:id record) "; nam:" (:name record))))))
 
+(deftest targets-record?-test
+  (testing "subrule matches"
+    (are [rule ky] (rc/targets-record? rule {:id "456" :name "hiro"} ky)
+      "+id:456" :id
+      "name:hiro" :name))
+  (testing "subrule does not match"
+    (are [rule ky] (not (rc/targets-record? rule {:id "456" :name "hiro"} ky))
+      "+id:456" :name
+      "+id:123" :id)))
+
 (deftest toggle-record-test
   (testing "enable record"
     (is (= (rc/toggle-record "+id:123" {:id "456" :name "hiro"} :name)
