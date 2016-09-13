@@ -86,7 +86,7 @@
 (defn ^:private targets-record?
   "Does this subrule affect this record with the this key?"
   [rule record key]
-  (let [{:keys [key-prefix match-rule]} (parse-subrule rule)
+  (let [{:keys [key-prefix match-rule]} (parse-subrule rule nil)
         matched-key (key-for-prefix key-prefix (keys record))]
     (and (= key matched-key)
          (= match-rule (str (get record key))))))
