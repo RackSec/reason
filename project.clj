@@ -7,9 +7,9 @@
   :deploy-repositories [["releases" :clojars]
                         ["snapshots" :clojars]]
 
-  :dependencies [[org.clojure/clojure "1.7.0"]
-                 [org.clojure/clojurescript "1.7.122"]
-                 [org.clojure/core.async "0.2.374"]]
+  :dependencies [[org.clojure/clojure "1.8.0"]
+                 [org.clojure/clojurescript "1.9.293"]
+                 [org.clojure/core.async "0.2.395"]]
 
   :plugins [[lein-cljfmt "0.3.0"]]
 
@@ -41,9 +41,9 @@
                          :optimizations :whitespace
                          :pretty-print true}}]}
 
-  :profiles {:dev {:dependencies [[cljsbuild "1.1.1"]
-                                  [doo "0.1.6-SNAPSHOT"]
-                                  [figwheel "0.5.0-2"]
+  :profiles {:dev {:dependencies [[cljsbuild "1.1.4"]
+                                  [doo "0.1.7"]
+                                  [figwheel "0.5.8"]
                                   [com.cemerick/piggieback "0.2.1"]
                                   [org.clojure/tools.nrepl "0.2.12"]]
                    :plugins [[lein-doo "0.1.6-SNAPSHOT"]
