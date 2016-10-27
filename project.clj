@@ -32,12 +32,14 @@
      :compiler
      {:main "reason.core"
       :optimizations :advanced
+      :output-dir "target/min/"
       :pretty-print false}}
     {:id "test"
      :source-paths ["src" "test"]
      :compiler
      {:main "reason.runner"
       :optimizations :whitespace
+      :output-to "target/test.js"
       :pretty-print true}}]}
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
