@@ -50,8 +50,5 @@
                              [lein-cljsbuild "1.1.4"]
                              [lein-figwheel "0.5.8"]]}}
 
-  :figwheel {:css-dirs ["resources/public/css"]
-             :nrepl-middleware ["cider.nrepl/cider-middleware"
-                                "refactor-nrepl.middleware/wrap-refactor"
-                                "cemerick.piggieback/wrap-cljs-repl"]
+  :figwheel {:css-dirs ["dev-resources/public/css"]
              :nrepl-port 7002})
