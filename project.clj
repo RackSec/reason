@@ -14,36 +14,32 @@
 
   :source-paths ["src"]
 
-  :cljsbuild {
-    :builds [{:id "dev"
-              :source-paths ["src"]
-
-              :figwheel true
-
-              :compiler {:main reason.core
-                         :asset-path "js/compiled/out"
-                         :output-to "resources/public/js/compiled/reason.js"
-                         :output-dir "resources/public/js/compiled/out"
-                         :source-map-timestamp true }}
-             {:id "min"
-              :source-paths ["src"]
-              :compiler {:output-to "resources/public/js/compiled/reason.js"
-                         :main "reason.core"
-                         :optimizations :advanced
-                         :pretty-print false}}
-             {:id "test"
-              :source-paths ["src" "test"]
-              :compiler {:output-to "target/test.js"
-                         :main "reason.runner"
-                         :optimizations :whitespace
-                         :pretty-print true}}]}
-
-  :profiles {:dev {:dependencies [[cljsbuild "1.1.4"]
-                                  [doo "0.1.7"]
-                                  [figwheel "0.5.8"]
-                                  [com.cemerick/piggieback "0.2.1"]
   :clean-targets ^{:protect false}
   ["dev-resources/public/js/compiled" "target" "out"]
+
+  :cljsbuild
+  {:builds
+   [{:id "dev"
+     :source-paths ["src"]
+     :figwheel true
+     :compiler
+     {:main reason.core
+      :asset-path "js/compiled/out"
+      :output-dir "dev-resources/public/js/compiled/"
+      :source-map-timestamp true}}
+    {:id "min"
+     :source-paths ["src"]
+     :compiler
+     {:main "reason.core"
+      :optimizations :advanced
+      :pretty-print false}}
+    {:id "test"
+     :source-paths ["src" "test"]
+     :compiler
+     {:main "reason.runner"
+      :optimizations :whitespace
+      :pretty-print true}}]}
+
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [org.clojure/tools.nrepl "0.2.12"]]
                    :plugins [[lein-doo "0.1.7"]
