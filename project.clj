@@ -9,7 +9,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.293"]]
 
-  :plugins [[lein-cljfmt "0.5.1"]]
+  :plugins [[lein-cljfmt "0.5.6"]]
 
   :source-paths ["src"]
 
