@@ -10,7 +10,7 @@
                  [org.clojure/clojurescript "1.9.293"]
                  [org.clojure/core.async "0.2.395"]]
 
-  :plugins [[lein-cljfmt "0.3.0"]]
+  :plugins [[lein-cljfmt "0.5.6"]]
 
   :source-paths ["src"]
 
