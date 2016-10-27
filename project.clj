@@ -10,8 +10,6 @@
                  [org.clojure/clojurescript "1.9.293"]
                  [org.clojure/core.async "0.2.395"]]
 
-  :plugins [[lein-cljfmt "0.5.6"]]
-
   :source-paths ["src"]
 
   :clean-targets ^{:protect false}
@@ -44,7 +42,8 @@
 
   :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [org.clojure/tools.nrepl "0.2.12"]]
-                   :plugins [[lein-doo "0.1.7"]
+                   :plugins [[lein-cljfmt "0.5.6"]
+                             [lein-doo "0.1.7"]
                              [lein-cljsbuild "1.1.4"]
                              [lein-figwheel "0.5.8"]]}}
 
