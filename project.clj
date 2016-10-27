@@ -44,10 +44,11 @@
                                   [doo "0.1.7"]
                                   [figwheel "0.5.8"]
                                   [com.cemerick/piggieback "0.2.1"]
+  :profiles {:dev {:dependencies [[com.cemerick/piggieback "0.2.1"]
                                   [org.clojure/tools.nrepl "0.2.12"]]
-                   :plugins [[lein-doo "0.1.6-SNAPSHOT"]
-                             [lein-cljsbuild "1.1.1"]
-                             [lein-figwheel "0.5.0-2"]]}}
+                   :plugins [[lein-doo "0.1.7"]
+                             [lein-cljsbuild "1.1.4"]
+                             [lein-figwheel "0.5.8"]]}}
 
   :figwheel {:css-dirs ["resources/public/css"]
              :nrepl-middleware ["cider.nrepl/cider-middleware"
