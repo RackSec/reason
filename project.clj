@@ -7,8 +7,7 @@
   :deploy-repositories [["releases" :clojars] ["snapshots" :clojars]]
 
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.293"]
-                 [org.clojure/core.async "0.2.395"]]
+                 [org.clojure/clojurescript "1.9.293"]]
 
   :source-paths ["src"]
 
