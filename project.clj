@@ -24,7 +24,7 @@
      :compiler
      {:main reason.core
       :asset-path "js/compiled/out"
-      :output-dir "dev-resources/public/js/compiled/"
+      :output-to "dev-resources/public/js/compiled/reason.js"
       :source-map-timestamp true}}
     {:id "min"
      :source-paths ["src"]
@@ -32,12 +32,14 @@
      {:main "reason.core"
       :optimizations :advanced
       :output-dir "target/min/"
+      :output-to "target/min/reason.js"
       :pretty-print false}}
     {:id "test"
      :source-paths ["src" "test"]
      :compiler
      {:main "reason.runner"
       :optimizations :whitespace
+      :output-dir "target/test/"
       :output-to "target/test.js"
       :pretty-print true}}]}
 
